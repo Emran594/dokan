@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helper\JWTToken;
 use App\Models\User;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -29,5 +31,28 @@ class UserController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function userLogin(Request $request){
+        $count = User::where('email', $request->input('email'))
+                 ->where('password', $request->input('password'))
+                 ->count();
+
+        if($count == 1){
+            $token = JWTToken::createToken($request->input('email'));
+
+            return response()->json([
+                'status' => "Success",
+                'message' => "User Login Successfully",
+                'token' => $token
+            ]);
+        }else{
+            return response()->json([
+                'status' => "Failed",
+                'message' => "Invalid Email Or Password"
+            ]);
+        }
+
+
     }
 }
