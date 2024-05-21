@@ -17,15 +17,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/userLogin');
 });
 
 Route::post('/user-registation',[UserController::class,'userRegistration']);
 Route::post('/user-login',[UserController::class,'userLogin']);
 Route::post('/send-otp',[UserController::class,'sendOtp']);
 Route::post('/verify-otp',[UserController::class,'verifyOtp']);
-
 Route::post('/reset-password',[UserController::class,'ResetPassword'])->middleware([TokenVerificationMiddleware::class]);
+Route::get('/user-profile',[UserController::class,'UserProfile'])->middleware([TokenVerificationMiddleware::class]);
+Route::post('/user-update',[UserController::class,'UpdateProfile'])->middleware([TokenVerificationMiddleware::class]);
+
+Route::get('/logout',[UserController::class,'UserLogout']);
 
 Route::get('/userLogin',[UserController::class,'LoginPage']);
 Route::get('/userRegistration',[UserController::class,'RegistrationPage']);
