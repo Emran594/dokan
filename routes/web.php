@@ -20,7 +20,7 @@ Route::get('/', function () {
     return redirect('/userLogin');
 });
 
-Route::post('/user-registation',[UserController::class,'userRegistration']);
+Route::post('/user-registration',[UserController::class,'userRegistration']);
 Route::post('/user-login',[UserController::class,'userLogin']);
 Route::post('/send-otp',[UserController::class,'sendOtp']);
 Route::post('/verify-otp',[UserController::class,'verifyOtp']);
@@ -34,4 +34,5 @@ Route::get('/userLogin',[UserController::class,'LoginPage']);
 Route::get('/userRegistration',[UserController::class,'RegistrationPage']);
 Route::get('/sendOtp',[UserController::class,'SendOtpPage']);
 Route::get('/verifyOtp',[UserController::class,'VerifyOTPPage']);
+Route::get('/resetPassword',[UserController::class,'ResetPasswordPage'])->middleware([TokenVerificationMiddleware::class]);
 Route::get('/dashboard',[DashboardController::class,'DashboardPage'])->middleware([TokenVerificationMiddleware::class]);

@@ -20,10 +20,6 @@
                                 <input id="lastName" placeholder="Last Name" class="form-control" type="text"/>
                             </div>
                             <div class="col-md-6 p-2">
-                                <label>Mobile Number</label>
-                                <input id="mobile" placeholder="Mobile" class="form-control" type="mobile"/>
-                            </div>
-                            <div class="col-md-6 p-2">
                                 <label>Password</label>
                                 <input id="password" placeholder="User Password" class="form-control" type="password"/>
                             </div>
@@ -43,6 +39,43 @@
 <script>
 
 
+    async function onRegistration() {
 
+          let email = document.getElementById('email').value;
+          let firstName = document.getElementById('firstName').value;
+          let lastName = document.getElementById('lastName').value;
+          let password = document.getElementById('password').value;
 
-</script>
+          if(email.length===0){
+              errorToast('Email is required')
+          }
+          else if(firstName.length===0){
+              errorToast('First Name is required')
+          }
+          else if(lastName.length===0){
+              errorToast('Last Name is required')
+          }
+          else if(password.length===0){
+              errorToast('Password is required')
+          }
+          else{
+             // showLoader();
+              let res=await axios.post("/user-registration",{
+                  email:email,
+                  firstName:firstName,
+                  lastName:lastName,
+                  password:password
+              })
+            //  hideLoader();
+              if(res.status===200 && res.data['status']==='success'){
+                  successToast(res.data['message']);
+                  setTimeout(function (){
+                      window.location.href='/userLogin'
+                  },2000)
+              }
+              else{
+                  errorToast(res.data['message'])
+              }
+          }
+      }
+  </script>

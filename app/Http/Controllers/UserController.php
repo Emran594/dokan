@@ -37,25 +37,23 @@ class UserController extends Controller
     }
     public function userRegistration(Request $request) {
         try {
-            $userData = [
+            User::create([
                 'firstName' => $request->input('firstName'),
                 'lastName' => $request->input('lastName'),
                 'email' => $request->input('email'),
                 'password' => $request->input('password'),
-            ];
-
-            User::create($userData);
-
+            ]);
             return response()->json([
                 'status' => 'success',
-                'message' => 'User registration successful'
-            ]);
-        } catch (\Exception $e) {
-            // Log error or handle it according to your application's requirements
+                'message' => 'User Registration Successfully'
+            ],200);
+
+        } catch (Exception $e) {
             return response()->json([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ], 500);
+                'status' => 'failed',
+                'message' => 'User Registration Failed'
+            ],200);
+
         }
     }
 
@@ -83,22 +81,24 @@ class UserController extends Controller
      }
 
     public function sendOtp(Request $request){
-        $email = $request->input('email');
-        $otp = rand(1000,9999);
-        $count = User::where('email',$email)->count();
 
-        if($count == 1){
+        $email=$request->input('email');
+        $otp=rand(1000,9999);
+        $count=User::where('email','=',$email)->count();
+
+        if($count==1){
             Mail::to($email)->send(new OTPMail($otp));
-            User::where('email',$email)->update(['otp' => $otp]);
-            return response()->json([
-                'status' => "Success",
-                'message' => "4 Digit Otp Code Send on your Email"
-            ]);
+            User::where('email','=',$email)->update(['otp'=>$otp]);
 
-        }else{
             return response()->json([
-                'status' => "Failed",
-                'message' => "Invalid Email"
+                'status' => 'success',
+                'message' => '4 Digit OTP Code has been send to your email !'
+            ],200);
+        }
+        else{
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'unauthorized'
             ]);
         }
     }
