@@ -14,6 +14,7 @@
 
 
     <link href="{{asset('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css')}}" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="{{asset('css/jquery.dataTables.min.css')}}" rel="stylesheet" />
     <script src="{{asset('js/jquery-3.7.0.min.js')}}"></script>
@@ -71,23 +72,22 @@
 
 
 <div id="sideNavRef" class="side-nav-open">
-
-    <a href="{{url("/dashboard")}}" class="side-bar-item">
+    <a href="{{url('/dashboard')}}" class="side-bar-item">
         <i class="bi bi-graph-up"></i>
         <span class="side-bar-item-caption">Dashboard</span>
     </a>
 
-    <a href="{{url("/customerPage")}}" class="side-bar-item">
+    <a href="{{url('/customerPage')}}" class="side-bar-item">
         <i class="bi bi-people"></i>
         <span class="side-bar-item-caption">Customer</span>
     </a>
 
-    <a href="{{url("/categoryPage")}}" class="side-bar-item">
+    <a href="{{url('/categoryPage')}}" class="side-bar-item">
         <i class="bi bi-list-nested"></i>
         <span class="side-bar-item-caption">Category</span>
     </a>
 
-    <a href="{{url("/productPage")}}" class="side-bar-item">
+    <a href="{{url('/productPage')}}" class="side-bar-item">
         <i class="bi bi-bag"></i>
         <span class="side-bar-item-caption">Product</span>
     </a>
@@ -106,9 +106,9 @@
         <i class="bi bi-file-earmark-bar-graph"></i>
         <span class="side-bar-item-caption">Report</span>
     </a>
-
-
 </div>
+
+
 
 
 <div id="contentRef" class="content">
@@ -116,6 +116,7 @@
 </div>
 
 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <script>
     function MenuBarClickHandler() {

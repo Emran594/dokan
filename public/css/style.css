@@ -65,3 +65,15 @@ a:hover {
     font-size: 3rem;
 }
 
+.side-nav-open .dropdown-menu {
+    position: static;
+    float: none;
+    width: 100%;
+    margin-top: 0; /* Adjust margin to ensure it displays directly below */
+    background-color: inherit; /* Optional: Inherit background color for a seamless look */
+    border: none; /* Optional: Remove border for a seamless look */
+}
+
+.side-nav-open .dropdown-item {
+    padding: 0.5rem 1rem; /* Adjust padding for dropdown items */
+}
