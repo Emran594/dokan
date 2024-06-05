@@ -71,41 +71,54 @@
 </nav>
 
 
+
 <div id="sideNavRef" class="side-nav-open">
     <a href="{{url('/dashboard')}}" class="side-bar-item">
         <i class="bi bi-graph-up"></i>
         <span class="side-bar-item-caption">Dashboard</span>
     </a>
-
     <a href="{{url('/customerPage')}}" class="side-bar-item">
         <i class="bi bi-people"></i>
         <span class="side-bar-item-caption">Customer</span>
     </a>
-
     <a href="{{url('/categoryPage')}}" class="side-bar-item">
         <i class="bi bi-list-nested"></i>
         <span class="side-bar-item-caption">Category</span>
     </a>
-
     <a href="{{url('/productPage')}}" class="side-bar-item">
         <i class="bi bi-bag"></i>
         <span class="side-bar-item-caption">Product</span>
     </a>
-
     <a href="{{url('/salePage')}}" class="side-bar-item">
         <i class="bi bi-currency-dollar"></i>
         <span class="side-bar-item-caption">Create Sale</span>
     </a>
-
     <a href="{{url('/invoicePage')}}" class="side-bar-item">
         <i class="bi bi-receipt"></i>
         <span class="side-bar-item-caption">Invoice</span>
     </a>
-
     <a href="{{url('/reportPage')}}" class="side-bar-item">
         <i class="bi bi-file-earmark-bar-graph"></i>
         <span class="side-bar-item-caption">Report</span>
     </a>
+    <div class="side-bar-item dropdown-toggle" onclick="toggleDropdown()">
+        <i class="bi bi-gear"></i>
+        <span class="side-bar-item-caption">Settings</span>
+    </div>
+    <div id="sideBarDropdown" class="side-bar-dropdown">
+        <a href="{{url('/settings/general')}}" class="side-bar-item">
+            <i class="bi bi-gear-wide"></i>
+            <span class="side-bar-item-caption">General</span>
+        </a>
+        <a href="{{url('/settings/profile')}}" class="side-bar-item">
+            <i class="bi bi-person"></i>
+            <span class="side-bar-item-caption">Profile</span>
+        </a>
+        <a href="{{url('/settings/security')}}" class="side-bar-item">
+            <i class="bi bi-shield-lock"></i>
+            <span class="side-bar-item-caption">Security</span>
+        </a>
+    </div>
 </div>
 
 
@@ -119,19 +132,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    function MenuBarClickHandler() {
-        let sideNav = document.getElementById('sideNavRef');
-        let content = document.getElementById('contentRef');
-        if (sideNav.classList.contains("side-nav-open")) {
-            sideNav.classList.add("side-nav-close");
-            sideNav.classList.remove("side-nav-open");
-            content.classList.add("content-expand");
-            content.classList.remove("content");
+    function toggleDropdown() {
+        var dropdown = document.getElementById('sideBarDropdown');
+        if (dropdown.style.display === 'block') {
+            dropdown.style.display = 'none';
         } else {
-            sideNav.classList.remove("side-nav-close");
-            sideNav.classList.add("side-nav-open");
-            content.classList.remove("content-expand");
-            content.classList.add("content");
+            dropdown.style.display = 'block';
         }
     }
 </script>
