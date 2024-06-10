@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title></title>
 
     <link rel="icon" type="image/x-icon" href="{{asset('/favicon.ico')}}" />
@@ -77,25 +78,9 @@
         <i class="bi bi-graph-up"></i>
         <span class="side-bar-item-caption">Dashboard</span>
     </a>
-    <a href="{{url('/customerPage')}}" class="side-bar-item">
-        <i class="bi bi-people"></i>
-        <span class="side-bar-item-caption">Customer</span>
-    </a>
-    <a href="{{url('/categoryPage')}}" class="side-bar-item">
-        <i class="bi bi-list-nested"></i>
-        <span class="side-bar-item-caption">Category</span>
-    </a>
-    <a href="{{url('/productPage')}}" class="side-bar-item">
-        <i class="bi bi-bag"></i>
-        <span class="side-bar-item-caption">Product</span>
-    </a>
     <a href="{{url('/salePage')}}" class="side-bar-item">
-        <i class="bi bi-currency-dollar"></i>
-        <span class="side-bar-item-caption">Create Sale</span>
-    </a>
-    <a href="{{url('/invoicePage')}}" class="side-bar-item">
-        <i class="bi bi-receipt"></i>
-        <span class="side-bar-item-caption">Invoice</span>
+        <i class="bi bi-list-nested"></i>
+        <span class="side-bar-item-caption">Sale</span>
     </a>
     <a href="{{url('/reportPage')}}" class="side-bar-item">
         <i class="bi bi-file-earmark-bar-graph"></i>
@@ -108,15 +93,15 @@
     <div id="sideBarDropdown" class="side-bar-dropdown">
         <a href="{{url('/settings/general')}}" class="side-bar-item">
             <i class="bi bi-gear-wide"></i>
-            <span class="side-bar-item-caption">General</span>
+            <span class="side-bar-item-caption">Tank Setup</span>
         </a>
         <a href="{{url('/settings/profile')}}" class="side-bar-item">
             <i class="bi bi-person"></i>
-            <span class="side-bar-item-caption">Profile</span>
+            <span class="side-bar-item-caption">Nozzle Setup</span>
         </a>
         <a href="{{url('/settings/security')}}" class="side-bar-item">
             <i class="bi bi-shield-lock"></i>
-            <span class="side-bar-item-caption">Security</span>
+            <span class="side-bar-item-caption">Shift Setup</span>
         </a>
     </div>
 </div>
