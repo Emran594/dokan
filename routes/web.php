@@ -41,8 +41,9 @@ Route::get('/resetPassword',[UserController::class,'ResetPasswordPage'])->middle
 Route::get('/dashboard',[DashboardController::class,'DashboardPage'])->middleware([TokenVerificationMiddleware::class]);
 Route::get('/salePage',[SaleController::class,'SalePage'])->middleware([TokenVerificationMiddleware::class]);
 
-Route::get('/sales/create', [SaleController::class, 'create'])->name('sales.create');
-Route::post('/sales', [SaleController::class, 'store'])->name('sales.store');
+Route::get('/sales/create', [SaleController::class, 'create'])->name('sales.create')->middleware([TokenVerificationMiddleware::class]);
+Route::post('/sales', [SaleController::class, 'store'])->name('sales.store')->middleware([TokenVerificationMiddleware::class]);
+Route::get('/sales/{id}/edit', [SaleController::class, 'editSale'])->name('sales.edit')->middleware([TokenVerificationMiddleware::class]);
 
 // API route for fetching nozzles by tank
-Route::get('/api/nozzles/{tank}', [SaleController::class, 'getNozzlesByTank']);
+Route::get('/api/nozzles/{tank}', [SaleController::class, 'getNozzlesByTank'])->middleware([TokenVerificationMiddleware::class]);

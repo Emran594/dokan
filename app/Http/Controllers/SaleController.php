@@ -58,4 +58,9 @@ class SaleController extends Controller
         $nozzles = Nozzle::where('tank_id', $tankId)->get(['id', 'nozzle_name', 'current_meter_reading']);
         return response()->json(['nozzles' => $nozzles]);
     }
+    public function editSale($id) {
+        $sale = Sale::with('shift', 'nozzles')->findOrFail($id);
+        return view('pages.dashboard.sale-update', compact('sale'));
+    }
+
 }
