@@ -11,8 +11,10 @@ use App\Models\Nozzle;
 
 class SaleController extends Controller
 {
-    function SalePage():View{
-        return view('pages.dashboard.sale-page');
+    public function SalePage(): View
+    {
+        $sales = Sale::with(['shift', 'nozzle'])->get();
+        return view('pages.dashboard.sale-page', compact('sales'));
     }
     function create():View{
         $shifts = Shift::all();
@@ -30,7 +32,7 @@ class SaleController extends Controller
             'closing_reading.*' => 'required|numeric',
             'sale_qty.*' => 'required|numeric',
         ]);
-    
+
         foreach ($data['opening_reading'] as $nozzleId => $openingReading) {
             Sale::create([
                 'sale_date' => $data['sale_date'],
@@ -42,12 +44,12 @@ class SaleController extends Controller
                 'sale_amount' => $data['sale_qty'][$nozzleId] * Nozzle::find($nozzleId)->tank->sell_price,
                 'status' => 'completed',
             ]);
-    
+
             $nozzle = Nozzle::find($nozzleId);
             $nozzle->current_meter_reading = $data['closing_reading'][$nozzleId];
             $nozzle->save();
         }
-    
+
         return response()->json(['message' => 'Sales recorded successfully'], 201);
     }
 
