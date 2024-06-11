@@ -16,10 +16,10 @@ return new class extends Migration
             $table->date('sale_date');
             $table->foreignId('shift_id')->constrained('shifts')->onDelete('cascade');
             $table->foreignId('nozzle_id')->constrained('nozzles')->onDelete('cascade');
-            $table->string('opening_reading');
-            $table->string('closing_reading');
-            $table->integer('sale_qty');
-            $table->decimal('sale_amount', 10, 2); // Use decimal for monetary values
+            $table->decimal('opening_reading', 10, 4);
+            $table->decimal('closing_reading', 10, 4);
+            $table->decimal('sale_qty', 10, 4);
+            $table->decimal('sale_amount', 10, 4); // Use decimal for monetary values
             $table->string('status');
             $table->timestamps(); // Includes both created_at and updated_at
         });

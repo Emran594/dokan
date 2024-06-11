@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nozzle_name');
             $table->string('nozzle_name_bangla');
             $table->foreignId('tank_id')->constrained('tanks')->onDelete('cascade');
-            $table->integer('current_meter_reading'); // Updated column name
+            $table->decimal('current_meter_reading',10,4); // Updated column name
             $table->string('status');
             $table->timestamps(); // Includes both created_at and updated_at
         });

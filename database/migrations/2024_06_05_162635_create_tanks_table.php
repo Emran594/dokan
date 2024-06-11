@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_bangla');
-            $table->integer('tank_size');
-            $table->integer('opening_stock');
-            $table->decimal('purchase_price', 10, 2);
-            $table->decimal('sell_price', 10, 2);
+            $table->decimal('tank_size', 10, 4);
+            $table->decimal('opening_stock', 10, 4);
+            $table->decimal('purchase_price', 10, 4);
+            $table->decimal('sell_price', 10, 4);
             $table->string('status');
             $table->timestamps();
         });
