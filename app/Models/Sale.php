@@ -10,25 +10,12 @@ class Sale extends Model
     use HasFactory;
 
     protected $fillable = [
-        'sale_date',
-        'shift_id',
-        'nozzle_id',
-        'opening_reading',
-        'closing_reading',
-        'sale_qty',
-        'sale_amount',
-        'status',
+        'sale_date', 'shift_id', 'tank_id'
     ];
 
-    protected static function boot()
+    public function nozzles()
     {
-        parent::boot();
-
-        static::created(function ($sale) {
-            $nozzle = $sale->nozzle;
-            $nozzle->current_meter_reading += $sale->sale_qty;
-            $nozzle->save();
-        });
+        return $this->belongsToMany(Nozzle::class)->withPivot('opening_reading', 'closing_reading', 'sale_qty', 'total_sale');
     }
 
     public function shift()
@@ -36,8 +23,9 @@ class Sale extends Model
         return $this->belongsTo(Shift::class);
     }
 
-    public function nozzle()
+    public function tank()
     {
-        return $this->belongsTo(Nozzle::class);
+        return $this->belongsTo(Tank::class);
     }
 }
+

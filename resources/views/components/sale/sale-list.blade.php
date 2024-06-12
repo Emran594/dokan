@@ -19,7 +19,7 @@
                                     <th>No</th>
                                     <th>Date</th>
                                     <th>Shift</th>
-                                    <th>Fuel Name</th>
+                                    <th>Nozzles</th>
                                     <th>Sale Quantity</th>
                                     <th>Sale Amount</th>
                                     <th>Action</th>
@@ -31,9 +31,17 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $sale->sale_date }}</td>
                                         <td>{{ $sale->shift->shift_name }}</td>
-                                        <td>{{ $sale->nozzle->nozzle_name }}</td>
-                                        <td>{{ $sale->sale_qty }}</td>
-                                        <td>{{ $sale->sale_amount }}</td>
+                                        <td>
+                                            @foreach($sale->nozzles as $nozzle)
+                                                <div>{{ $nozzle->nozzle_name }}: {{ $nozzle->pivot->sale_qty }} L</div>
+                                            @endforeach
+                                        </td>
+                                        <td>{{ $sale->nozzles->sum('pivot.sale_qty') }}</td>
+                                        <td>
+                                            {{ $sale->nozzles->sum(function ($nozzle) {
+                                                return $nozzle->pivot->sale_qty * $nozzle->tank->sell_price;
+                                            }) }}
+                                        </td>
                                         <td>
                                             <a href="{{ url('/sales/' . $sale->id . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
                                             <form action="{{ url('/sales/' . $sale->id) }}" method="POST" style="display:inline;">
@@ -60,5 +68,5 @@
     new DataTable('#tableData',{
         order:[[0,'desc']],
         lengthMenu:[5,10,15,20,30]
-        });
+    });
 </script>

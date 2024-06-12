@@ -11,8 +11,7 @@
                 <div class="table-responsive">
                     <form id="saleForm" onsubmit="return updateSale(event)">
                         @csrf
-                        @method('PUT') <!-- Use PUT method for update -->
-
+                        @method('PUT')
                         <input type="hidden" name="sale_id" value="{{ $sale->id }}">
 
                         <div class="container">
@@ -36,9 +35,6 @@
                                             <option value="{{ $tank->id }}" @if($tank->id == $sale->tank_id) selected @endif>{{ $tank->name }}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                                <div class="col-12 col-md-6 col-lg-3 p-1 d-flex align-items-end">
-                                    <a href="javascript:void(0);" class="float-end btn m-0 bg-dark text-white w-100" onclick="fetchNozzles()" id="search-btn">Search</a>
                                 </div>
                             </div>
                             <div id="nozzlesContainer" class="row col-12 mt-4">
@@ -89,88 +85,86 @@
 </div>
 
 <script>
-function fetchNozzles() {
-    let tankId = document.getElementById('tank_id').value;
-    if (!tankId) {
-        errorToast("Please select a tank!");
-        return;
-    }
+document.addEventListener("DOMContentLoaded", function() {
+    fetchNozzles();
+});
 
-    fetch(`/api/nozzles/${tankId}`)
-        .then(response => response.json())
-        .then(data => {
-            let nozzlesTableBody = document.getElementById('nozzlesTableBody');
-            nozzlesTableBody.innerHTML = '';
-            data.nozzles.forEach(nozzle => {
-                nozzlesTableBody.innerHTML += `
-                    <tr>
-                        <td>${nozzle.nozzle_name}</td>
-                        <td>
-                            <input type="text" class="form-control" id="opening_reading_${nozzle.id}" name="opening_reading[${nozzle.id}]" value="${nozzle.current_meter_reading}" readonly>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control cash-sale-qty" id="cash_sale_qty_${nozzle.id}" name="sale_qty[${nozzle.id}]" oninput="calculateClosingReading(${nozzle.id})">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control closing-reading" id="closing_reading_${nozzle.id}" name="closing_reading[${nozzle.id}]" oninput="calculateSaleQty(${nozzle.id})">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control total-sale" id="total_sale_${nozzle.id}" name="total_sale[${nozzle.id}]" value="0.00" readonly>
-                        </td>
-                    </tr>
-                `;
-            });
-        });
-}
+// function fetchNozzles() {
+//     let tankId = document.getElementById('tank_id').value;
+//     if (!tankId) {
+//         errorToast("Please select a tank!");
+//         return;
+//     }
+
+//     fetch(`/api/nozzles/${tankId}`)
+//         .then(response => response.json())
+//         .then(data => {
+//             let nozzlesTableBody = document.getElementById('nozzlesTableBody');
+//             nozzlesTableBody.innerHTML = '';
+//             data.nozzles.forEach(nozzle => {
+//                 nozzlesTableBody.innerHTML += `
+//                     <tr>
+//                         <td>${nozzle.nozzle_name}</td>
+//                         <td>
+//                             <input type="text" class="form-control" id="opening_reading_${nozzle.id}" name="opening_reading[${nozzle.id}]" value="${nozzle.current_meter_reading}" readonly>
+//                         </td>
+//                         <td>
+//                             <input type="text" class="form-control cash-sale-qty" id="cash_sale_qty_${nozzle.id}" name="sale_qty[${nozzle.id}]" oninput="calculateClosingReading(${nozzle.id})">
+//                         </td>
+//                         <td>
+//                             <input type="text" class="form-control closing-reading" id="closing_reading_${nozzle.id}" name="closing_reading[${nozzle.id}]" oninput="calculateSaleQty(${nozzle.id})">
+//                         </td>
+//                         <td>
+//                             <input type="text" class="form-control total-sale" id="total_sale_${nozzle.id}" name="total_sale[${nozzle.id}]" value="0.00" readonly>
+//                         </td>
+//                     </tr>
+//                 `;
+//             });
+//         });
+// }
 
 function calculateClosingReading(nozzleId) {
     let openingReading = parseFloat(document.getElementById(`opening_reading_${nozzleId}`).value) || 0;
     let cashSaleQty = parseFloat(document.getElementById(`cash_sale_qty_${nozzleId}`).value) || 0;
     let closingReading = openingReading + cashSaleQty;
-    document.getElementById(`closing_reading_${nozzleId}`).value = closingReading.toFixed(4);
-    document.getElementById(`total_sale_${nozzleId}`).value = cashSaleQty.toFixed(4);
+    document.getElementById(`closing_reading_${nozzleId}`).value = closingReading.toFixed(2);
+    document.getElementById(`total_sale_${nozzleId}`).value = cashSaleQty.toFixed(2);
 }
 
 function calculateSaleQty(nozzleId) {
     let openingReading = parseFloat(document.getElementById(`opening_reading_${nozzleId}`).value) || 0;
     let closingReading = parseFloat(document.getElementById(`closing_reading_${nozzleId}`).value) || 0;
     let cashSaleQty = closingReading - openingReading;
-    document.getElementById(`cash_sale_qty_${nozzleId}`).value = cashSaleQty.toFixed(4);
-    document.getElementById(`total_sale_${nozzleId}`).value = cashSaleQty.toFixed(4);
+    document.getElementById(`cash_sale_qty_${nozzleId}`).value = cashSaleQty.toFixed(2);
+    document.getElementById(`total_sale_${nozzleId}`).value = cashSaleQty.toFixed(2);
 }
 
 async function updateSale(event) {
     event.preventDefault();
 
-    let saleId = document.querySelector('input[name="sale_id"]').value;
     let saleDate = document.getElementById('sale_date').value;
     let shiftId = document.getElementById('shift_id').value;
     let tankId = document.getElementById('tank_id').value;
     let formData = new FormData(document.getElementById('saleForm'));
+    let saleId = document.querySelector('input[name="sale_id"]').value;
 
-    if (!saleId || !saleDate || !shiftId || !tankId) {
-        errorToast("All fields are required!");
+    if (!saleDate || !shiftId || !tankId) {
+        errorToast("Please fill out all required fields");
         return;
     }
 
+    showLoader();
     try {
-        showLoader();
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        let res = await axios.put(`/sales/${saleId}`, formData, {
+        let res = await axios.post(`/update/${saleId}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'X-CSRF-TOKEN': csrfToken
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             }
         });
-
         hideLoader();
-
         if (res.status === 200) {
             successToast('Sale updated successfully');
-            // Optionally, redirect to a different page after successful update
-            // window.location.href = "/salePage";
+            document.getElementById("saleForm").reset();
         } else {
             errorToast("Failed to update sale");
         }
